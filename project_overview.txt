@@ -1,0 +1,7 @@
+Project Overview
+----------------
+This repository contains two small Java demos:
+1) A minimal blockchain simulation that shows how proof of work, blocks, and transactions fit together.
+2) A key predistribution system (KPS) that demonstrates how a trusted server can hand out starting secrets so users can derive shared keys later without contacting the server again.
+
+Both demos are designed for learning and experimentation, not production use. They favor readability and simple control flows over performance or security hardening.
