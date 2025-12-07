@@ -30,9 +30,10 @@ public final class KeyDerivation {
         int prime = self.getPrime();
         int[] secret = self.getSecretShare();
         for (int i = 0; i < secret.length; i++) {
-            acc += (long) secret[i] * otherPublicVector[i];
+            long product = ((long) secret[i] * otherPublicVector[i]) % prime;
+            acc = (acc + product) % prime;
         }
-        int sharedScalar = IntMath.mod((int) (acc % prime), prime);
+        int sharedScalar = IntMath.mod((int) acc, prime);
         byte[] keyMaterial = hashSharedScalar(self.getUserId(), otherUserId, sharedScalar);
         return Arrays.copyOf(keyMaterial, 16); // AES-128 key
     }

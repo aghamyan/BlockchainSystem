@@ -35,9 +35,10 @@ public final class VectorUtils {
         for (int j = 0; j < matrix[0].length; j++) {
             long acc = 0;
             for (int i = 0; i < vector.length; i++) {
-                acc += (long) vector[i] * matrix[i][j];
+                long product = ((long) vector[i] * matrix[i][j]) % prime;
+                acc = (acc + product) % prime;
             }
-            result[j] = IntMath.mod((int) (acc % prime), prime);
+            result[j] = IntMath.mod((int) acc, prime);
         }
         return result;
     }
