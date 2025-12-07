@@ -1,0 +1,26 @@
+Key Predistribution System (Plain-Language Guide)
+------------------------------------------------
+Goal: Show how a central server can hand every user a small bundle of secrets so any pair of users can later derive a shared key on their own.
+
+Core ideas
+- Key server: Generates a hidden master matrix and keeps it secret.
+- User materials: For each user, the server publishes a public vector and privately gives a matching secret share.
+- Key derivation: When two users want to talk, each combines their secret share with the other person's public vector, hashes the result, and ends up with the same AES key.
+- Offline ready: After initial provisioning, users no longer need the server to agree on keys.
+
+How the demo flows
+1) KeyServer creates a random symmetric matrix to act as the master secret.
+2) ProvisioningService simulates delivering each user's secret share and public vector.
+3) UserClient instances store their materials and fetch peers' public vectors from the directory.
+4) KeyDerivation multiplies vectors, applies modular math, hashes the shared scalar into a 128-bit AES key, and offers AES encrypt/decrypt helpers.
+5) DemoMain prints each user's public and private parameters, then shows two users deriving identical keys and encrypting a sample message.
+
+Key classes (in com.example.kps)
+- KeyServer: Maintains the master matrix, registers users, rotates secrets, and exposes a read-only public directory.
+- ProvisioningService: Hands out each user's secret share and public vector in serialized form.
+- KeyMaterial: Immutable record of one user's public and private parameters, with Base64 helpers.
+- UserClient: Stores received materials, looks up peers, and asks KeyDerivation to produce shared keys.
+- KeyDerivation: Performs the math for deriving keys and wraps AES utilities.
+
+Why this matters
+Key predistribution is useful for low-connectivity environments—sensors or ad-hoc networks—where peers need to establish encryption keys without constantly contacting a central authority.

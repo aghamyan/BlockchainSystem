@@ -1,0 +1,26 @@
+Blockchain Demo (Plain-Language Guide)
+-------------------------------------
+Goal: Show a tiny proof-of-work blockchain where nodes exchange transactions, mine blocks, and keep a shared ledger in sync.
+
+Core ideas
+- Transactions: Each payment records sender, recipient, amount, and a signature proving the sender authorized it.
+- Blocks: Batches of transactions linked together by hashes, forming an ordered chain.
+- Proof of work: Miners search for a nonce that makes the block hash start with a target number of zeros. This prevents easy tampering.
+- Nodes: Full nodes hold the ledger, share transactions/blocks with peers, and mine new blocks.
+
+How the demo flows
+1) DemoMain builds three full nodes and connects them together.
+2) A client generates keys, signs a transaction, writes it to disk, and submits it to one node.
+3) Nodes gossip the transaction, a miner finds a valid nonce, and the resulting block is appended to the ledger.
+4) When a block lands, nodes notify listeners so the client knows its transaction was confirmed.
+
+Key classes (in com.example.blockchain)
+- Block: Holds transaction IDs, previous hash, nonce, and computed hash.
+- Transaction: Represents a signed payment and can verify its own signature.
+- Ledger: Stores the ordered chain and checks new blocks for valid hashes and linkage.
+- FullNode: Combines a ledger with networking-style helpers to share transactions/blocks and trigger mining.
+- ProofOfWorkMiner: Brute-forces the nonce to satisfy the difficulty target.
+- Client: Generates keys, constructs and signs transactions, and listens for confirmations.
+
+Why this matters
+By running the demo you can see the essential pieces of many cryptocurrencies—digital signatures, chained hashes, and proof of work—without needing a large network or external dependencies.

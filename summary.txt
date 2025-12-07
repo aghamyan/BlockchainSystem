@@ -1,0 +1,22 @@
+# Project Summary
+
+## com.example.blockchain package
+- **Block.java**: Represents a Proof-of-Work block containing an index, previous hash, timestamp, transactions, nonce, and resulting hash. Provides getters/setters plus `contentWithNonce` to concatenate block fields and transaction IDs for hashing during mining.
+- **Transaction.java**: Models a signed payment between sender and recipient with amount, sender public key, and signature. Offers helpers for payload formatting, signature verification, SHA-256-based ID computation, and serialization/deserialization to a simple text format.
+- **CryptoUtils.java**: Cryptographic utilities for RSA key generation, SHA-256 hashing, RSA signing/verification, and Base64 encoding/decoding of public keys.
+- **Ledger.java**: Maintains the ordered chain of blocks and enforces Proof-of-Work validity. Initializes a mined genesis block, validates and appends new blocks, and exposes immutable snapshots of the chain.
+- **ProofOfWorkMiner.java**: Performs brute-force mining by incrementing a nonce until the block hash has the required leading zeros; includes validation to recompute and verify mined hashes.
+- **Client.java**: Lightweight wallet that generates an RSA key pair, creates and signs transactions, writes them to disk, and submits them to a `FullNode` with a callback for confirmation notifications.
+- **FullNode.java**: Simulates a network node maintaining the ledger and mempool, exchanging transactions/blocks with peers, mining pending transactions, and notifying registered listeners when transactions are confirmed in mined blocks.
+- **ConfirmationListener.java**: Functional interface defining `onTransactionConfirmed` callbacks used by `FullNode` when a transaction enters a block.
+- **DemoMain.java**: Runs a three-node blockchain demo where a client signs a transaction, submits it, and a node mines it into the shared chain.
+
+## com.example.kps (Key Predistribution System) package
+- **client/UserClient.java**: Holds a user's predistributed key material and public directory; derives shared keys with peers using `KeyDerivation` based on public vectors.
+- **crypto/KeyDerivation.java**: Client-side derivation of shared scalars via modular dot products, hashing to an AES-128 key, and helper AES-CBC encrypt/decrypt plus hex formatting.
+- **demo/DemoMain.java**: Demonstrates the key predistribution flow: provisioning users, deriving matching shared keys, encrypting/decrypting a message, and printing public/secret parameters.
+- **server/KeyMaterial.java**: Immutable container for a user's public vector, secret share, and prime modulus with Base64 serialization helpers and equality implementations.
+- **server/ProvisioningService.java**: Simulates secure delivery of serialized `KeyMaterial` to users via a key server.
+- **server/KeyServer.java**: Central authority generating a symmetric master matrix, registering users by deriving public vectors and secret shares, rotating the master matrix, and exposing a read-only public directory.
+- **server/crypto/IntMath.java**: Modular arithmetic helper ensuring non-negative modulo results.
+- **server/crypto/VectorUtils.java**: Utilities to derive deterministic public vectors from user IDs, multiply vectors by matrices modulo a prime, generate random symmetric matrices, and pretty-print matrices.
