@@ -9,16 +9,23 @@ This project demonstrates a lightweight blockchain network in Java. It models a 
 - **Ledger** (`com.example.blockchain.Ledger`) is the canonical chain of blocks each protected by Proof of Work.
 - **Proof of Work** (`com.example.blockchain.ProofOfWorkMiner`) brute-forces nonces until the block hash starts with the required number of leading zeroes.
 
-## Demo
-The demo builds a three-node network, has a client create and sign a transaction file, submits it to a node, mines a block, and shows that all full nodes converge on the same chain height.
+## Demos
+Two runnable demos are included:
 
-### Build and run
+- **Blockchain** (`com.example.blockchain.DemoMain`) builds a three-node network, has a client create and sign a transaction file, submits it to a node, mines a block, and shows that all full nodes converge on the same chain height.
+- **Key Predistribution System (KPS)** (`com.example.kps.demo.DemoMain`) provisions users with key material so they can derive matching shared keys without talking to the server again.
+
+## Build and run
 ```
 # Compile all sources
 devon@machine:$ javac -d out $(find src/main/java -name "*.java")
 
-# Execute the demo
+# Run the interactive console UI (offers both demos)
+devon@machine:$ java -cp out com.example.AppUI
+
+# Run individual demos directly
 devon@machine:$ java -cp out com.example.blockchain.DemoMain
+devon@machine:$ java -cp out com.example.kps.demo.DemoMain
 ```
 
-The demo outputs the path to the generated transaction file, Proof of Work mining progress, and confirmation notifications sent back to the client.
+The interactive UI prompts for sender/recipient names, amounts, and difficulty for the blockchain demo, and for user IDs and a message for the KPS demo. Outputs include the path to the generated transaction file, Proof of Work mining progress, key material summaries, and confirmation notifications.
