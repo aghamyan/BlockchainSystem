@@ -23,6 +23,9 @@ devon@machine:$ javac -d out $(find src/main/java -name "*.java")
 # Run the interactive console UI (offers both demos)
 devon@machine:$ java -cp out com.example.AppUI
 
+# Launch the graphical UI with tabs for each demo
+devon@machine:$ java -cp out com.example.AppSwingUI
+
 # Run individual demos directly
 devon@machine:$ java -cp out com.example.blockchain.DemoMain
 devon@machine:$ java -cp out com.example.kps.demo.DemoMain
